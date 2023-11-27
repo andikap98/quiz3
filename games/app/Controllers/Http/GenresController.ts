@@ -4,14 +4,14 @@ import { schema } from '@ioc:Adonis/Core/Validator'
 
 export default class GenresController {
   public async index({response}: HttpContextContract) {
-    const genres = await Database
+    const genre = await Database
       .query()  // 👈 gives an instance of select query builder
-      .from('genres')
+      .from('genre')
       .select('*')
 
     return response.ok({
       message: "Data Genre",
-      data: genres
+      data: genre
     })
   }
 
@@ -26,7 +26,7 @@ export default class GenresController {
 
         await Database
             .insertQuery() // 👈 gives an instance of insert query builder
-            .table('genres')
+            .table('genre')
             .insert(GenresDataStore)
 
         
@@ -38,14 +38,14 @@ export default class GenresController {
 
   public async show({response, params}: HttpContextContract) {
 
-    const genres = await Database
-        .from('genres')
+    const genre = await Database
+        .from('genre')
         .where('id', params.id)
         .first()
 
         return response.ok({
             message: "Tampilkan Data Genre",
-            data: genres
+            data: genre
         })
 
   }
@@ -59,7 +59,7 @@ export default class GenresController {
         const GenresDataUpdate= await request.validate({schema: genresValidator})
 
         await Database
-            .from('genres')
+            .from('genre')
             .where('id', params.id)
             .update(GenresDataUpdate);
 
@@ -72,7 +72,7 @@ export default class GenresController {
     public async destroy({ response, params }: HttpContextContract) {
       try {
           await Database
-              .from('genres')
+              .from('genre')
               .where('id', params.id)
               .delete();
   
